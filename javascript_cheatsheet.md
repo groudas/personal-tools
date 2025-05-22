@@ -191,7 +191,7 @@ console.log(url.endsWith(".com", 18)); // Output: true (considers "https://examp
 
 ---
 
-### Methods and properties exclusive to strings
+### Methods and properties exclusive to arrays
 
 Many array methods can be categorized into:
 - **Mutator methods:** Modify the original array.
