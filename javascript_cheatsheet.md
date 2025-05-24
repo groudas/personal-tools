@@ -266,7 +266,7 @@ console.log(numbers);  // Output: [1, 4, 9] (original unchanged)
 
 `.filter(callbackFn(element[, index[, array]]))`: (Accessor - returns a new array) creates a *new* array with all elements that pass the test implemented by the provided `callbackFn`. The callback should return `true` to keep the element, or `false` otherwise.
 
-```javascript
+```js
 let ages = [32, 15, 33, 12, 40, 20];
 let adults = ages.filter(function(age) {
 return age >= 18;
@@ -277,22 +277,18 @@ console.log(adults); // Output: [32, 33, 40, 20]
 console.log(ages);   // Output: [32, 15, 33, 12, 40, 20] (original unchanged)
 ```
 
-10. **`.find(callbackFn(element[, index[, array]]))`** (Accessor - returns an element or `undefined`)
-    *   **Description:** Returns the **first element** in the array that satisfies the provided testing function (`callbackFn`). If no values satisfy the testing function, `undefined` is returned.
-    *   **Example:**
-        ```javascript
-        let inventory = [
-          { name: "apples", quantity: 2 },
-          { name: "bananas", quantity: 0 },
-          { name: "cherries", quantity: 5 },
-        ];
-        let foundItem = inventory.find(function(item) {
-          return item.name === "bananas";
-        });
-        // Using arrow function:
-        // let foundItem = inventory.find(item => item.name === "bananas");
-        console.log(foundItem); // Output: { name: 'bananas', quantity: 0 }
+`.find(callbackFn(element[, index[, array]]))`: (Accessor - returns an element or `undefined`) returns the **first element** in the array that satisfies the provided testing function (`callbackFn`). If no values satisfy the testing function, `undefined` is returned.
+```js
+let inventory = [
+{ name: "apples", quantity: 2 },
+{ name: "bananas", quantity: 0 },
+{ name: "cherries", quantity: 5 },
+];
+return item.name === "bananas";
+});
 
-        let notFound = inventory.find(item => item.name === "oranges");
-        console.log(notFound); // Output: undefined
-        ```
+console.log(foundItem); // Output: { name: 'bananas', quantity: 0 }
+
+let notFound = inventory.find(item => item.name === "oranges");
+console.log(notFound); // Output: undefined
+```
