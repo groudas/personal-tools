@@ -157,23 +157,43 @@ console.log(numbers.slice(-2));    // Output: [4, 5] (last 2 elements)
 console.log(numbers);              // Output: [1, 2, 3, 4, 5] (original unchanged)
 ```
 
+`.at(index)`: returns the element at the specified index. Can use negative integers to count back from the end.
+```js
+let language = "JavaScript";
+console.log(language.at(2));    // Output: "v"
+console.log(language.at(-1));   // Output: "t"
+
+let scores = [88, 95, 74];
+console.log(scores.at(1));      // Output: 95
+console.log(scores.at(-2));     // Output: 95
+```
+
 ### Methods and properties exclusive to strings
 
 Strings are immutable, so all methods return a new string (must assign to a variable to keep the result).
 
 `.toUpperCase()` and `.toLowerCase()`: converts the entire string to uppercase / lower case.
-
 ```js
 let greeting = "Hello World";
-let lowerGreeting = greeting.toLowerCase()
-let upperGreeting = greeting.toUpperCase()
+let lowerGreeting = greeting.toLowerCase();
+let upperGreeting = greeting.toUpperCase();
 
 console.log(lowerGreeting); // Output: "hello world"
 console.log(upperGreeting); // Output: "HELLO WORLD"
-console.log(greeting);      // Output: "hello world" (original unchanged)
+console.log(greeting);      // Output: "Hello World" (original unchanged)
 ```
 
 `.trim()`: removes whitespace (spaces, tabs, newlines) from both ends of a string.
+
+`.replace(pattern, replacement)` and `.replaceAll(pattern, replacement)`: returns a new string with one, some, or all matches of a `pattern` replaced by a `replacement`. `.replace()` with a string pattern only replaces the first occurrence, while `.replaceAll()` replaces all.
+```js
+let message = "I like cats. Dogs are nice, but I prefer cats.";
+let newMessage = message.replace("cats", "birds");
+console.log(newMessage); // Output: "I like birds. Dogs are nice, but I prefer cats."
+
+let newAllMessage = message.replaceAll("cats", "birds");
+console.log(newAllMessage); // Output: "I like birds. Dogs are nice, but I prefer birds."
+```
 
 `.split(separator[, limit])`: splits the string into an array, using the separator to determine the splits. The limit param determines how many of the elements are returned.
 ```js
@@ -183,10 +203,18 @@ console.log(words);       // Output: ["This", "is", "a", "sentence."]
 console.log(sentence.split(' ', 2)); // Output: ['This', 'is']
 ```
 
-`.startsWith(searchString[, position])` and `.endsWith(searchString[, length])`: checks if the string begins or ends with the characters of `searchString`.
-
+`.startsWith(searchString[, position])` and `.endsWith(searchString[, length])`: checks if the string begins or ends with the characters of `searchString`. The optional second parameter specifies the position to begin searching from or the length of the string to consider.
 ```js
+let url = "https://example.com";
+console.log(url.startsWith("https"));     // Output: true
+console.log(url.endsWith(".com"));        // Output: true
 console.log(url.endsWith(".com", 18)); // Output: true (considers "https://example.com")
+```
+
+`.repeat(count)`: returns a new string containing the specified number of copies of the string on which it was called.
+```js
+console.log("ha".repeat(3)); // Output: "hahaha"
+console.log("---".repeat(5)); // Output: "---------------"
 ```
 
 ---
@@ -198,20 +226,29 @@ Many array methods can be categorized into:
 - **Accessor methods:** Do not modify the original array and return some representation of it (often a new array or a value).
 - **Iteration methods:** Operate on every element of the array (like `forEach`, `map`, `filter`).
 
-`.push(element1[, ..., elementN])` and `.unshift(element1[, ..., elementN])`: (Mutator) adds one or more elements to the end or beginning of an array and returns the new `length` of the array.
+#### Static Methods
 
+`Array.isArray(obj)`: determines whether the passed value is an `Array`. This is a method on the `Array` object itself, not an array instance.
+```js
+console.log(Array.isArray([1, 2, 3])); // Output: true
+console.log(Array.isArray({}));        // Output: false
+console.log(Array.isArray("text"));    // Output: false
+```
+
+#### Mutator Methods
+
+`.push(element1[, ..., elementN])` and `.unshift(element1[, ..., elementN])`: adds one or more elements to the end or beginning of an array and returns the new `length` of the array.
 ```js
 let colors = ["red", "green"];
 let newLength = colors.push("blue", "yellow");
 console.log(colors);    // Output: ["red", "green", "blue", "yellow"]
 console.log(newLength); // Output: 4
 newLength = colors.unshift("black");
-console.log(colors);    // Output: ["red", "green", "blue", "yellow", "black"]
+console.log(colors);    // Output: ["black", "red", "green", "blue", "yellow"]
 console.log(newLength); // Output: 5
 ```
 
-`.pop()` and `.shift()`: (Mutator) removes the last or first element from an array and returns that element.
-
+`.pop()` and `.shift()`: removes the last or first element from an array and returns that element.
 ```js
 let tasks = ["buy milk", "read book", "call mom"];
 let lastTask = tasks.pop();
@@ -222,24 +259,10 @@ console.log(tasks);     // Output: ["read book"]
 console.log(firstTask);  // Output: "buy milk"
 ```
 
-`.join(separator)`: (Accessor - returns a string) joins all elements of an array into a string. The `separator` string is used between elements. If omitted, elements are separated by a comma.
-
-`.concat(array2[, ..., arrayN])`: (Accessor - returns a new array) returns a *new* array comprised of the original array joined with other array(s) and/or value(s). Does not change existing arrays.
-```js
-let arr1 = [1, 2];
-let arr2 = [3, 4];
-let arr3 = [5, 6];
-let combined = arr1.concat(arr2, arr3, 7);
-console.log(combined); // Output: [1, 2, 3, 4, 5, 6, 7]
-console.log(arr1);     // Output: [1, 2] (original unchanged)
-```
-
-`.splice(start, deleteCount[, item1[, item2[, ...]]])`: (Mutator) changes the contents of an array by removing or replacing existing elements and/or adding new elements *in place*. Returns an array containing the deleted elements.
-
+`.splice(start, deleteCount[, item1[, item2[, ...]]])`: changes the contents of an array by removing or replacing existing elements and/or adding new elements *in place*. Returns an array containing the deleted elements.
 *   `start`: Index at which to start changing the array.
 *   `deleteCount`: An integer indicating the number of elements in the array to remove from `start`.
 *   `item1, item2, ...` (optional): The elements to add to the array, beginning from `start` index.
-
 ```js
 let months = ["Jan", "March", "April", "June"];
 // Insert "Feb" at index 1
@@ -251,44 +274,109 @@ console.log(months);   // Output: ["Jan", "Feb", "March", "May", "June"]
 console.log(removed);  // Output: ["April"]
 ```
 
-`.map(callbackFn(element[, index[, array]]))`: (Accessor - returns a new array) creates a *new* array populated with the results of calling a provided function (`callbackFn`) on every element in the calling array.
+`.sort([compareFunction])`: sorts the elements of an array *in place*. **By default, it sorts based on string conversion**, which can lead to unexpected results for numbers. Provide a `compareFunction` for custom sort order (like numeric).
+```js
+let fruits = ["banana", "apple", "cherry"];
+fruits.sort();
+console.log(fruits); // Output: ["apple", "banana", "cherry"]
 
+let numbers = [100, 20, 1, 5];
+numbers.sort(); // Sorts as strings: "1", "100", "20", "5"
+console.log(numbers); // Output: [1, 100, 20, 5] (Incorrect numeric sort!)
+
+// Correct numeric sort with a compare function
+numbers.sort((a, b) => a - b);
+console.log(numbers); // Output: [1, 5, 20, 100]
+```
+
+`.reverse()`: reverses an array *in place*. The first element becomes the last, and the last becomes the first.
+```js
+let items = [1, 2, 3, 4];
+items.reverse();
+console.log(items); // Output: [4, 3, 2, 1]
+```
+
+#### Accessor Methods
+
+`.join(separator)`: (returns a string) joins all elements of an array into a string. The `separator` string is used between elements. If omitted, elements are separated by a comma.
+
+`.concat(array2[, ..., arrayN])`: (returns a new array) returns a *new* array comprised of the original array joined with other array(s) and/or value(s). Does not change existing arrays.
+```js
+let arr1 = [1, 2];
+let arr2 = [3, 4];
+let arr3 = [5, 6];
+let combined = arr1.concat(arr2, arr3, 7);
+console.log(combined); // Output: [1, 2, 3, 4, 5, 6, 7]
+console.log(arr1);     // Output: [1, 2] (original unchanged)
+```
+
+#### Iteration Methods
+
+`.forEach(callbackFn(element[, index[, array]]))`: executes a provided function once for each array element. Unlike `map`, it does not return a new array and its return value is `undefined`.
+```js
+let names = ["Alice", "Bob", "Charlie"];
+names.forEach(name => {
+  console.log(`Hello, ${name}!`);
+});
+// Output:
+// "Hello, Alice!"
+// "Hello, Bob!"
+// "Hello, Charlie!"
+```
+
+`.map(callbackFn(element[, index[, array]]))`: (returns a new array) creates a *new* array populated with the results of calling a provided function (`callbackFn`) on every element in the calling array.
 ```js
 let numbers = [1, 4, 9];
-let doubles = numbers.map(function(num) {
-return num * 2;
-});
-// Using arrow function:
-// let doubles = numbers.map(num => num * 2);
+let doubles = numbers.map(num => num * 2);
 console.log(doubles);  // Output: [2, 8, 18]
 console.log(numbers);  // Output: [1, 4, 9] (original unchanged)
 ```
 
-`.filter(callbackFn(element[, index[, array]]))`: (Accessor - returns a new array) creates a *new* array with all elements that pass the test implemented by the provided `callbackFn`. The callback should return `true` to keep the element, or `false` otherwise.
-
+`.filter(callbackFn(element[, index[, array]]))`: (returns a new array) creates a *new* array with all elements that pass the test implemented by the provided `callbackFn`. The callback should return `true` to keep the element, or `false` otherwise.
 ```js
 let ages = [32, 15, 33, 12, 40, 20];
-let adults = ages.filter(function(age) {
-return age >= 18;
-});
-// Using arrow function:
-// let adults = ages.filter(age => age >= 18);
+let adults = ages.filter(age => age >= 18);
 console.log(adults); // Output: [32, 33, 40, 20]
 console.log(ages);   // Output: [32, 15, 33, 12, 40, 20] (original unchanged)
 ```
 
-`.find(callbackFn(element[, index[, array]]))`: (Accessor - returns an element or `undefined`) returns the **first element** in the array that satisfies the provided testing function (`callbackFn`). If no values satisfy the testing function, `undefined` is returned.
+`.reduce(callbackFn(accumulator, currentValue[, currentIndex[, array]])[, initialValue])`: (returns a single value) executes a "reducer" function on each element of the array, resulting in a single output value.
+```js
+let prices = [10.5, 20, 8.75];
+let sum = prices.reduce((total, currentPrice) => total + currentPrice, 0);
+// 1st call: total=0, currentPrice=10.5 -> returns 10.5
+// 2nd call: total=10.5, currentPrice=20 -> returns 30.5
+// 3rd call: total=30.5, currentPrice=8.75 -> returns 39.25
+console.log(sum); // Output: 39.25
+```
+
+`.find(callbackFn(element[, index[, array]]))`: (returns an element or `undefined`) returns the **first element** in the array that satisfies the provided testing function (`callbackFn`). If no values satisfy the testing function, `undefined` is returned.
 ```js
 let inventory = [
 { name: "apples", quantity: 2 },
 { name: "bananas", quantity: 0 },
 { name: "cherries", quantity: 5 },
 ];
-return item.name === "bananas";
-});
+let foundItem = inventory.find(item => item.name === "bananas");
 
 console.log(foundItem); // Output: { name: 'bananas', quantity: 0 }
-
 let notFound = inventory.find(item => item.name === "oranges");
 console.log(notFound); // Output: undefined
+```
+
+`.findIndex(callbackFn(element[, index[, array]]))`: (returns an index or -1) returns the **index of the first element** in the array that satisfies the provided testing function. Otherwise, it returns -1.
+```js
+let numbers = [5, 12, 8, 130, 44];
+let largeNumberIndex = numbers.findIndex(num => num > 100);
+console.log(largeNumberIndex); // Output: 3
+```
+
+`.some(callbackFn)` and `.every(callbackFn)`: (return a boolean) `.some` tests whether at least one element passes the test. `.every` tests whether all elements pass the test.
+```js
+let grades = [85, 92, 78, 65, 95];
+let hasFailingGrade = grades.some(grade => grade < 70);
+console.log(hasFailingGrade); // Output: true
+
+let allPassingGrades = grades.every(grade => grade >= 65);
+console.log(allPassingGrades); // Output: true
 ```
