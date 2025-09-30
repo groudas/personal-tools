@@ -20,7 +20,24 @@ def call_gemma(prompt: str, model_name: str = "gemma-3-27b-it", temperature: flo
 if __name__ == "__main__":
     try:
         # Exemplo de chamada de teste:
-        response_text = call_gemma("""<instruções> 1) Elabore um raciocínio rápido acerca da pergunta 2) Responda sim ou não com o seguinte formato: [[sim]] / [[não]] </instruções>\n\n<alerta>Aviso de: Ventos Costeiros\nGrau de severidade: Perigo\nInício: 26/09/2025 01h00min\nFim: 28/09/2025 10h00min\nRiscos Potenciais:\nINMET publica aviso iniciando em: 26/09/2025 01:00. Intensificação dos ventos nas regiões litorâneas, movimentando dunas de areia sobre construções na orla..\n\nInstruções:\nContate a Defesa Civil (telefone: 199).\nMunicípios:\nArambaré - RS (4300851), Araranguá - SC (4201406), Arroio do Sal - RS (4301057), Arroio Grande - RS (4301305), Balneário Arroio do Silva - SC (4201950), Balneário Gaivota - SC (4202073), Balneário Pin...\n\nÁreas Afetadas:\nMetropolitana de Porto Alegre, Sul Catarinense, Sudeste Rio-grandense\n</alerta>\n\n<pergunta>Este alerta é do grau de severidade "Perigo" ou "Grande Perigo"?</pergunta>""")
+        response_text = call_gemma("""<notícia 1>
+idRegistro	Data	Hora	Link	Resumo	Município	Relevância	Conteúdo
+1	29/09/25	22:13:00	https://xxx.com	Ponte pega fogo	Goiania		Ponte pega fogo pela manhã
+</notícia 1>
+<notícia 2>
+idRegistro	Data	Hora	Link	Resumo	Município	Relevância	Conteúdo
+2	29/09/25	09:12:00	https://yyy.com	Acidente derruba ponte	Goiania		Caminhão incendia ponte e a derruba
+</notícia 2>
+<instruções>
+A partir destas duas notícias, crie um novo registro conforme o seguinte schema JSON:
+* idEvento: Identificador único do evento.
+* idRegistro originários: Lista dos IDs de registros que deram origem a este evento.
+* Data Inicial: Data do primeiro registro associado.
+* Hora Inicial: Hora do primeiro registro associado.
+* Links registros originários: Lista dos links dos registros originais.
+* Resumo: Resumo consolidado do evento.
+* Município: Município principal do evento.
+</instruções>""")
         print(response_text)
     except ValueError as e:
         print(f"Erro: {e}")
